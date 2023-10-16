@@ -143,7 +143,7 @@ function showErrorNotification(msg) {
 function newHitsNotification(totalHits) {
   Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`, {
     position: 'right-top',
-    timeout: 5000,
+    timeout: 3000,
   });
 }
 
