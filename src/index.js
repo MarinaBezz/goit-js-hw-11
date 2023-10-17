@@ -1,8 +1,8 @@
 import './sass/index.scss';
 import ApiService from './js/api-service';
 import { lightbox } from './js/lightbox';
-// import Notiflix from 'notiflix';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
+// import Notiflix from 'notiflix';
 
 const refs = {
   searchForm: document.querySelector('.search-form'),
@@ -33,7 +33,7 @@ async function searchPictures(e) {
     apiService.query = e.currentTarget.elements.searchQuery.value;
     apiService.p = 1;
     errorShown = false;
-    const data = await apiService.fetchPictures();
+    const data = await apiService.fetchGallery();
 
     if (data.hits[0] !== undefined && apiService.query.trim() !== '') {
       clearGallery();
@@ -63,7 +63,7 @@ async function onLoadMore(entries, observer) {
     if (totalPages > 1) {
       if (entry.isIntersecting) {
         try {
-          const data = await apiService.fetchPictures();
+          const data = await apiService.fetchGallery();
           refs.gallery.insertAdjacentHTML('beforeend', hitsMarkup(data.hits));
           lightbox.refresh();
           smoothScroll();
@@ -139,7 +139,7 @@ function showErrorNotification(msg) {
 function newHitsNotification(totalHits) {
   Notify.success(`Hooray! We found ${totalHits} images.`, {
     position: 'right-top',
-    timeout: 3000,
+    timeout: 5000,
   });
 }
 
