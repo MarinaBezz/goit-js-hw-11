@@ -1,54 +1,50 @@
 import axios from 'axios';
 
+const BASE_URL = 'https://pixabay.com/api/';
+
 export default class ApiService {
   constructor() {
-    this.searchQuery = '';
+    this.q = '';
     this.page = 1;
-    this.PER_PAGE = 40;
+    this.perPage = 40;
   }
-  async fetchGallery() {
-    const axiosOptions = {
-      method: 'get',
-      url: 'https://pixabay.com/api/',
-      params: {
-        key: '40060997-8db7535f2e92ac0989f3352cd',
-        q: `${this.searchQuery}`,
-        image_type: 'photo',
-        orientation: 'horizontal',
-        safesearch: true,
-        page: `${this.page}`,
-        per_page: `${this.PER_PAGE}`,
-      },
-    };
-    try {
-      const response = await axios(axiosOptions);
 
-      const data = response.data;
+  async fetchGallery() {
+    try {
+      const response = await axios.get(BASE_URL, {
+        params: {
+          key: '40060997-8db7535f2e92ac0989f3352cd',
+          q: this.q,
+          image_type: 'photo',
+          orientation: 'horizontal',
+          safesearch: true,
+          per_page: this.perPage,
+          page: this.page,
+        },
+      });
 
       this.incrementPage();
-      return data;
+      return response.data;
     } catch (error) {
       throw error;
     }
   }
-
   incrementPage() {
     this.page += 1;
   }
-
   resetPage() {
     this.page = 1;
   }
-
-  resetEndOfHits() {
-    this.endOfHits = false;
+  get p() {
+    return this.page;
   }
-
+  set p(newP) {
+    this.page = newP;
+  }
   get query() {
-    return this.searchQuery;
+    return this.q;
   }
-
   set query(newQuery) {
-    this.searchQuery = newQuery;
+    this.q = newQuery;
   }
 }
