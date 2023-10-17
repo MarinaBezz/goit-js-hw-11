@@ -1,7 +1,8 @@
 import './sass/index.scss';
 import ApiService from './js/api-service';
 import { lightbox } from './js/lightbox';
-import { Notiflix } from 'notiflix/build/notiflix-notify-aio';
+// import Notiflix from 'notiflix';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 const refs = {
   searchForm: document.querySelector('.search-form'),
@@ -129,14 +130,14 @@ function showErrorNotification(msg) {
   } else {
     msg = `We're sorry, but you've reached the end of search results.`;
   }
-  Notiflix.Notify.failure(msg, {
+  Notify.failure(msg, {
     position: 'right-top',
     timeout: 5000,
   });
 }
 
 function newHitsNotification(totalHits) {
-  Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`, {
+  Notify.success(`Hooray! We found ${totalHits} images.`, {
     position: 'right-top',
     timeout: 3000,
   });
