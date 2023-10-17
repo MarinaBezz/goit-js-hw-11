@@ -60,6 +60,17 @@ async function searchPictures(e) {
 
 async function onLoadMore(entries, observer) {
   for (const entry of entries) {
+    if (currentPage < totalPages) {
+      lastItem = document.querySelector('.photo-card:last-child');
+      observer.unobserve(entry.target);
+      observer.observe(lastItem);
+    } else {
+      observer.unobserve(entry.target);
+      if (!errorShown) {
+        showErrorNotification();
+        errorShown = true;
+      }
+    }
     if (totalPages > 1) {
       if (entry.isIntersecting) {
         try {
@@ -68,18 +79,6 @@ async function onLoadMore(entries, observer) {
           lightbox.refresh();
           smoothScroll();
           currentPage += 1;
-
-          if (currentPage < totalPages) {
-            lastItem = document.querySelector('.photo-card:last-child');
-            observer.unobserve(entry.target);
-            observer.observe(lastItem);
-          } else {
-            observer.unobserve(entry.target);
-            if (!errorShown) {
-              showErrorNotification();
-              errorShown = true;
-            }
-          }
         } catch (error) {
           console.log('error');
         }
